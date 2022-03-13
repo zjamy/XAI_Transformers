@@ -5,13 +5,18 @@ import numpy as np
 import os
 import sys
 import inspect
+sys.path.append('..')
+from utils import args_parser, choose_gpu
+
+args = args_parser()
+device = choose_gpu(args.gpu)
+print('device=', device)
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
 from xai_transformer import make_p_layer, BertPooler, BertAttention
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 from IMDB.imdb import load_imdb, MovieReviewDataset, create_data_loader
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, BertForSequenceClassification
 from sklearn.model_selection import train_test_split
@@ -43,12 +48,14 @@ MAX_LEN = 512
 BATCH_SIZE = 1
 RANDOM_SEED = 42
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = choose_gpu(args.gpu)
+print('device=', device)
 
 np.random.seed(RANDOM_SEED)
 torch.manual_seed(RANDOM_SEED)
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = choose_gpu(args.gpu)
+print('device=', device)
 tokenizer = AutoTokenizer.from_pretrained("textattack/bert-base-uncased-imdb")
 
 df = load_imdb('IMDB/imdb.csv')

@@ -5,13 +5,19 @@ import numpy as np
 import os
 import sys
 import inspect
+# setting path
+sys.path.append('..')
+from utils import args_parser, choose_gpu
+
+args = args_parser()
+device = choose_gpu(args.gpu)
+print('device=', device)
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
 from xai_transformer import make_p_layer, BertPooler, BertAttention
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 from sst import get_sst_dataset
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, BertForSequenceClassification
 from sklearn.model_selection import train_test_split
@@ -27,8 +33,7 @@ import pickle
 RANDOM_SEED = 42
 
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print('device=', device)
+
 np.random.seed(RANDOM_SEED)
 torch.manual_seed(RANDOM_SEED)
 

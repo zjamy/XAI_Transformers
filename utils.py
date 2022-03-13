@@ -12,6 +12,20 @@ from torch.nn import functional as F
 from attribution import softmax
 import os
 import numpy as np
+import argparse
+
+def args_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--gpu', default=None, type=int, help="To use cuda, set \
+                        to a specific GPU ID. Default set to use CPU.")
+    args = parser.parse_args()
+    return args
+
+def choose_gpu(gpu):
+    if gpu:
+        torch.cuda.set_device(int(gpu))
+    device = (f'cuda:{str(gpu)}')  if torch.cuda.is_available() else 'cpu'
+    return device
 
 def set_up_dir(path):
     try:
