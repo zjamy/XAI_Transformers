@@ -94,7 +94,7 @@ pretrained_embeds = bert_model.bert.embeddings
 
 
 
-params = torch.load('IMDB/best_model_state_dropout_0.860.bin', map_location=torch.device(device))
+params = torch.load('IMDB/best_model_state_dropout_0.881.bin', map_location=torch.device(device))
 
 def rename_params(key):
     for k_ in ['key','query', 'value']:
